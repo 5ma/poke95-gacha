@@ -1,32 +1,60 @@
 import { Anchor, MenuList, MenuListItem, Separator } from "react95";
-import gitHubImg from "../../assets/icon/github.png";
+import gitHubImg from "../../assets/icon/github_icon.png";
 import infoImg from "../../assets/icon/Awfxex32Info_32x32_4.png";
 import styled from "styled-components";
+import { color, mq } from "../../styles/theme";
 
 export const Navigation = () => {
   return (
     <ExtendMenuList>
       <MenuListItem>
-        <Anchor href="https://github.com/5ma/udemy-vuex/tree/main/src" target="_blank">
-          <span>
+        <ExtendAnchor href="https://github.com/5ma/poke95-gacha" target="_blank">
+          <MenuIcon>
             <img src={gitHubImg} alt="" />
-          </span>
+          </MenuIcon>
           GitHub
-        </Anchor>
+        </ExtendAnchor>
       </MenuListItem>
       <Separator />
-      <MenuListItem>
-        <span>
+      <FlexMenuListItem>
+        <MenuIcon>
           <img src={infoImg} alt="" />
-        </span>
+        </MenuIcon>
         information
-      </MenuListItem>
+      </FlexMenuListItem>
     </ExtendMenuList>
   );
 };
 
 const ExtendMenuList = styled(MenuList)`
   position: absolute;
-  top: calc(100% - 3px);
-  left: 3px;
+  bottom: 100%;
+  left: -1px;
+`;
+
+const FlexMenuListItem = styled(MenuListItem)`
+  display: flex;
+  align-items: center;
+  gap: 0 4px;
+`;
+
+const ExtendAnchor = styled(Anchor)`
+  display: flex;
+  align-items: center;
+  gap: 0 4px;
+  width: 100%;
+
+  ${mq.hover} {
+    &:hover {
+      color: ${color.white};
+    }
+  }
+`;
+
+const MenuIcon = styled.span`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
 `;

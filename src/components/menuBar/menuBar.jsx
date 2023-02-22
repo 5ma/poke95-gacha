@@ -10,8 +10,9 @@ import { Navigation } from "../navigation";
 export const MenuBar = () => {
   const [isSoundOn, setIsSoundOn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+
   return (
-    <AppBar>
+    <ExtendAppBar>
       <ExtendToolbar>
         <Button onClick={() => setIsOpen(!isOpen)} active={isOpen}>
           <LogoImg src={logoImg} alt="windows95 logo" />
@@ -29,9 +30,19 @@ export const MenuBar = () => {
           </Button>
         </Util>
       </ExtendToolbar>
-    </AppBar>
+    </ExtendAppBar>
   );
 };
+
+const ExtendAppBar = styled(AppBar)`
+  position: fixed;
+  top: auto;
+  right: auto;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+`;
 
 const ExtendToolbar = styled(Toolbar)`
   justify-content: space-between;
