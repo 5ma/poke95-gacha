@@ -7,6 +7,8 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Root } from "./routes/root";
 import ErrorPage from "./routes/error-page";
 import { Collection } from "./routes/collection";
+import { Get } from "./routes/get";
+import { About } from "./routes/about";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +19,14 @@ const router = createBrowserRouter([
       {
         path: "collection",
         element: <Collection />,
+      },
+      {
+        path: "get",
+        element: <Get />,
+      },
+      {
+        path: "about",
+        element: <About />,
       },
     ],
   },
