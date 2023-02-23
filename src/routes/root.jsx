@@ -21,7 +21,8 @@ const GlobalStyles = createGlobalStyle`
     font-style: normal
   }
   body {
-    font-family: DotGothic16, 'ms_sans_serif', sans-serif;
+    font-family: 'ms_sans_serif', DotGothic16, sans-serif;
+    letter-spacing: 0.06em;
   }
 `;
 

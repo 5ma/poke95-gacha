@@ -10,6 +10,9 @@ import { Navigation } from "../navigation";
 export const MenuBar = () => {
   const [isSoundOn, setIsSoundOn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const closeNav = () => {
+    setIsOpen(false);
+  };
 
   return (
     <ExtendAppBar>
@@ -18,7 +21,7 @@ export const MenuBar = () => {
           <LogoImg src={logoImg} alt="windows95 logo" />
           Start
         </Button>
-        {isOpen && <Navigation />}
+        {isOpen && <Navigation close={closeNav} />}
         <Util>
           <Clock />
           <Button

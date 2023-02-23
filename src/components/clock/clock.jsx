@@ -7,10 +7,12 @@ const zeroPadding = (number) => {
 
 export const Clock = () => {
   const [time, setTime] = useState("00:00");
+
   const updateClock = () => {
     const now = new Date();
     setTime(`${zeroPadding(now.getHours())}:${zeroPadding(now.getMinutes())}`);
   };
+
   useEffect(() => {
     const timerId = setInterval(updateClock, 1000);
 
