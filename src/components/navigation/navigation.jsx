@@ -27,12 +27,10 @@ export const Navigation = (props) => {
         </Link>
       </FlexMenuListItem>
       <FlexMenuListItem>
-        <Link to="about" onClick={props.close}>
-          <MenuIcon>
-            <img src={infoImg} alt="" />
-          </MenuIcon>
-          About
-        </Link>
+        <MenuIcon>
+          <img src={infoImg} alt="" />
+        </MenuIcon>
+        About
       </FlexMenuListItem>
       <Separator />
       <MenuListItem>
@@ -54,6 +52,10 @@ const ExtendMenuList = styled(MenuList)`
 `;
 
 const FlexMenuListItem = styled(MenuListItem)`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0 8px;
   text-align: left;
 
   a {
@@ -61,6 +63,7 @@ const FlexMenuListItem = styled(MenuListItem)`
     justify-content: flex-start;
     align-items: center;
     gap: 0 8px;
+    width: 100%;
   }
 `;
 

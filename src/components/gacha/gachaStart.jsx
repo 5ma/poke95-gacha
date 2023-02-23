@@ -1,6 +1,7 @@
 import { Button, Window, WindowContent, WindowHeader } from "react95";
 import styled from "styled-components";
 import { useGacha } from "../../hooks/use-gacha";
+import { mq } from "../../styles/theme";
 
 export const GachaStart = () => {
   const [result, pull] = useGacha();
@@ -11,7 +12,7 @@ export const GachaStart = () => {
       <WindowHeader>ポケモンガチャ</WindowHeader>
       <WindowContent>
         <Message>まだ見ぬポケモンがあなたとの出会いを待っています。冒険にでかけますか？</Message>
-        {result.length && (
+        {result.length > 0 && (
           <div>
             <p>結果</p>
             <ul>
@@ -26,7 +27,7 @@ export const GachaStart = () => {
             1匹GETする
           </Button>
           <Button primary onClick={() => pull(10)}>
-            10匹GETする
+            たくさんGETする
           </Button>
         </ButtonWrapper>
       </WindowContent>
@@ -38,6 +39,7 @@ const ExtendWindow = styled(Window)`
   position: fixed;
   inset: 0;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   margin: auto;
   width: fit-content;
@@ -45,6 +47,10 @@ const ExtendWindow = styled(Window)`
   height: fit-content;
   max-height: 80%;
   z-index: 100;
+
+  ${mq.sp} {
+    max-width: 90%;
+  }
 `;
 
 const Message = styled.div`

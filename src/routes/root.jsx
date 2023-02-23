@@ -3,8 +3,12 @@ import ms_sans_serif from "react95/dist/fonts/ms_sans_serif.woff2";
 import ms_sans_serif_bold from "react95/dist/fonts/ms_sans_serif_bold.woff2";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import { MenuBar } from "../components/menuBar/menuBar";
-import { styleReset } from "react95";
+import { Hourglass, styleReset } from "react95";
 import { Outlet } from "react-router-dom";
+import { useAllPokemon } from "../hooks/use-api";
+import { createContext, useEffect } from "react";
+import { useLocalStorage } from "../hooks/use-local-storage";
+import { rareConfig } from "../hooks/use-gacha";
 
 const GlobalStyles = createGlobalStyle`
   ${styleReset}
@@ -26,19 +30,55 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
+export const AllPokemon = createContext();
+
 export const Root = () => {
+  // 全てのポケモンのデータを取得
+  const { pokemon, isLoading, isError } = useAllPokemon();
+
+  const newArr = pokemon?.results.map((item) => {
+    // idをURLから抜き出す
+    const id = item.url.split("/").slice(-2, -1)[0];
+    item["id"] = id;
+    return item;
+  });
+
+  // レアキャラを除いた配列を作成
+  const normalPokemon = pokemon?.results.filter((item) => {
+    return !rareConfig.pokemons.includes(Number(item.id));
+  });
+
+  const value = {
+    data: newArr,
+    normalPokemon,
+  };
+
   return (
     <Container>
       <GlobalStyles />
-      <ThemeProvider theme={original}>
-        <Outlet />
-        <MenuBar />
-      </ThemeProvider>
+      <AllPokemon.Provider value={value}>
+        <ThemeProvider theme={original}>
+          {isLoading && <ExtendHourglass />}
+          {pokemon !== undefined && (
+            <>
+              <Outlet />
+              <MenuBar />
+            </>
+          )}
+          {isError && <div>failed to load</div>}
+        </ThemeProvider>
+      </AllPokemon.Provider>
     </Container>
   );
 };
 
 const Container = styled.div`
-  min-height: 100vh;
+  min-height: 100dvh;
   background-color: teal;
+`;
+
+const ExtendHourglass = styled(Hourglass)`
+  position: fixed;
+  inset: 0;
+  margin: auto;
 `;

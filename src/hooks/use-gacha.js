@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const rareConfig = {
+export const rareConfig = {
   probability: 0.01, // 1%の確率でレアポケモンが出る
   pokemons: [
     144, // フリーザー
@@ -26,12 +26,10 @@ const rareConfig = {
     493, // アルセウス
     643, // レシラム
     644, // ゼクロム
-  ]
+  ],
 };
 
-const normalPokemons = [
-  0,1,2,3,4,5,6
-];
+const normalPokemons = [0, 1, 2, 3, 4, 5, 6];
 
 export const useGacha = () => {
   const [result, setResult] = useState([]);
@@ -43,9 +41,9 @@ export const useGacha = () => {
       const isRare = Math.random() < rareConfig.probability;
       let resultObj = {
         isRare: false,
-        id: 0
-      }
-      
+        id: 0,
+      };
+
       if (isRare) {
         const rareIndex = Math.floor(Math.random() * rareConfig.pokemons.length);
         resultObj.isRare = true;
@@ -59,7 +57,7 @@ export const useGacha = () => {
     }
 
     setResult(tempResult);
-  }
+  };
 
   return [result, pull];
-}
+};
