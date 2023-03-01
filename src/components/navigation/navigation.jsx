@@ -9,39 +9,43 @@ import { Link } from "react-router-dom";
 
 export const Navigation = (props) => {
   return (
-    <ExtendMenuList>
-      <FlexMenuListItem>
-        <Link to="collection" onClick={props.close}>
+    <>
+      <ExtendMenuList>
+        <FlexMenuListItem>
+          <Link to="collection" onClick={props.close}>
+            <MenuIcon>
+              <img src={pcImg} alt="" />
+            </MenuIcon>
+            ずかんをみる
+          </Link>
+        </FlexMenuListItem>
+        <FlexMenuListItem>
+          <Link to="get" onClick={props.close}>
+            <MenuIcon>
+              <img src={ballImg} alt="" />
+            </MenuIcon>
+            ポケモンにであう
+          </Link>
+        </FlexMenuListItem>
+        <FlexMenuListItem>
           <MenuIcon>
-            <img src={pcImg} alt="" />
+            <img src={infoImg} alt="" />
           </MenuIcon>
-          ずかんをみる
-        </Link>
-      </FlexMenuListItem>
-      <FlexMenuListItem>
-        <Link to="get" onClick={props.close}>
-          <MenuIcon>
-            <img src={ballImg} alt="" />
-          </MenuIcon>
-          ポケモンにであう
-        </Link>
-      </FlexMenuListItem>
-      <FlexMenuListItem>
-        <MenuIcon>
-          <img src={infoImg} alt="" />
-        </MenuIcon>
-        About
-      </FlexMenuListItem>
-      <Separator />
-      <MenuListItem>
-        <ExtendAnchor href="https://github.com/5ma/poke95-gacha" target="_blank">
-          <MenuIcon>
-            <img src={gitHubImg} alt="" />
-          </MenuIcon>
-          GitHub
-        </ExtendAnchor>
-      </MenuListItem>
-    </ExtendMenuList>
+          About
+        </FlexMenuListItem>
+        <Separator />
+        <MenuListItem>
+          <ExtendAnchor href="https://github.com/5ma/poke95-gacha" target="_blank">
+            <MenuIcon>
+              <img src={gitHubImg} alt="" />
+            </MenuIcon>
+            GitHub
+          </ExtendAnchor>
+        </MenuListItem>
+      </ExtendMenuList>
+
+      {}
+    </>
   );
 };
 

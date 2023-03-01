@@ -1,5 +1,15 @@
+html,
+body {
+  overflow: hidden;
+  letter-spacing: 0.06em;
+}
+
 html {
   cursor: url('./assets/cursor.png'), auto;
+}
+
+* {
+  font-family: "MS Sans Serif", DotGothic16, sans-serif !important;
 }
 
 img {

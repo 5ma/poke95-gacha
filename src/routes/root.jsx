@@ -1,38 +1,17 @@
-import original from "react95/dist/themes/original";
-import ms_sans_serif from "react95/dist/fonts/ms_sans_serif.woff2";
-import ms_sans_serif_bold from "react95/dist/fonts/ms_sans_serif_bold.woff2";
-import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
-import { MenuBar } from "../components/menuBar/menuBar";
-import { Hourglass, styleReset } from "react95";
+import styled from "styled-components";
+import { Hourglass } from "react95";
 import { Outlet } from "react-router-dom";
 import { useAllPokemon } from "../hooks/use-api";
-import { createContext, useEffect } from "react";
-import { useLocalStorage } from "../hooks/use-local-storage";
+import { createContext, useState } from "react";
 import { rareConfig } from "../hooks/use-gacha";
-
-const GlobalStyles = createGlobalStyle`
-  ${styleReset}
-  @font-face {
-    font-family: 'ms_sans_serif';
-    src: url('${ms_sans_serif}') format('woff2');
-    font-weight: 400;
-    font-style: normal
-  }
-  @font-face {
-    font-family: 'ms_sans_serif';
-    src: url('${ms_sans_serif_bold}') format('woff2');
-    font-weight: bold;
-    font-style: normal
-  }
-  body {
-    font-family: 'ms_sans_serif', DotGothic16, sans-serif;
-    letter-spacing: 0.06em;
-  }
-`;
+import { TaskBar, ThemeProvider, GlobalStyle, List, Modal } from "@react95/core";
+import { WindowsExplorer } from "@react95/icons";
+import ballImg from "../assets/pokeball.png";
 
 export const AllPokemon = createContext();
 
 export const Root = () => {
+  const [isShow, setIsShow] = useState(true);
   // 全てのポケモンのデータを取得
   const { pokemon, isLoading, isError } = useAllPokemon();
 
@@ -40,6 +19,9 @@ export const Root = () => {
     // idをURLから抜き出す
     const id = item.url.split("/").slice(-2, -1)[0];
     item["id"] = id;
+    // isRareフラグ追加
+    item["isRare"] = rareConfig.pokemons.includes(Number(id));
+
     return item;
   });
 
@@ -54,28 +36,34 @@ export const Root = () => {
   };
 
   return (
-    <Container>
-      <GlobalStyles />
-      <AllPokemon.Provider value={value}>
-        <ThemeProvider theme={original}>
-          {isLoading && <ExtendHourglass />}
-          {pokemon !== undefined && (
-            <>
-              <Outlet />
-              <MenuBar />
-            </>
-          )}
-          {isError && <div>failed to load</div>}
-        </ThemeProvider>
-      </AllPokemon.Provider>
-    </Container>
+    <AllPokemon.Provider value={value}>
+      <ThemeProvider>
+        <GlobalStyle />
+        {isLoading && <ExtendHourglass />}
+        {pokemon !== undefined && (
+          <>
+            <Outlet />
+            {/* <MenuBar /> */}
+          </>
+        )}
+        {isError && <div>failed to load</div>}
+        {isShow && (
+          <Modal title="welcome pokemon" hasWindowButton closeModal={() => setIsShow(false)}>
+            dsadas
+          </Modal>
+        )}
+        <TaskBar
+          list={
+            <List>
+              <List.Item icon={<WindowsExplorer variant="32x32_4" />}>ずかんをみる</List.Item>
+              <List.Item icon={<img src={ballImg} alt="" width={30} height={30} />}>ポケモンにであう</List.Item>
+            </List>
+          }
+        />
+      </ThemeProvider>
+    </AllPokemon.Provider>
   );
 };
-
-const Container = styled.div`
-  min-height: 100dvh;
-  background-color: teal;
-`;
 
 const ExtendHourglass = styled(Hourglass)`
   position: fixed;
