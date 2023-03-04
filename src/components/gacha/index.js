@@ -1,1 +1,2 @@
-export { GachaStart } from './gachaStart'
+export { GachaStart } from "./gachaStart";
+export { Gacha } from "./gacha";

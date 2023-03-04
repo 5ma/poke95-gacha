@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { StoreContext } from "../routes/root";
+import { getRandomInt } from "../utils";
 
 export const rareConfig = {
   probability: 0.01, // 1%の確率でレアポケモンが出る
@@ -20,6 +22,8 @@ export const rareConfig = {
     382, // カイオーガ
     383, // グラードン
     385, // ジラーチ
+    447, // ミニルカリオ
+    448, // ルカリオ
     483, // ディアルガ
     484, // パルキア
     487, // ギラティナアナザーフォルム
@@ -29,31 +33,29 @@ export const rareConfig = {
   ],
 };
 
-const normalPokemons = [0, 1, 2, 3, 4, 5, 6];
-
 export const useGacha = () => {
   const [result, setResult] = useState([]);
+  const copyRarePokemons = [...rareConfig.pokemons];
+  const { allPokemons, normalPokemon } = useContext(StoreContext);
 
   const pull = (times) => {
     let tempResult = []; // 結果を入れる空配列を作成
 
     for (let i = 0; i < times; i++) {
-      const isRare = Math.random() < rareConfig.probability;
-      let resultObj = {
-        isRare: false,
-        id: 0,
-      };
+      let id;
+
+      const isRare = Math.random() <= rareConfig.probability;
 
       if (isRare) {
-        const rareIndex = Math.floor(Math.random() * rareConfig.pokemons.length);
-        resultObj.isRare = true;
-        resultObj.id = rareConfig.pokemons[rareIndex];
+        const rareIndex = Math.floor(getRandomInt(0, copyRarePokemons.length));
+        // レアポケモンが複数体当たったとき、キャラが重複しないように配列要素から削除する
+        id = copyRarePokemons.splice(rareIndex, 1)[0];
       } else {
-        const normalIndex = Math.floor(Math.random() * normalPokemons.length);
-        resultObj.id = normalPokemons[normalIndex];
+        const normalIndex = Math.floor(getRandomInt(0, normalPokemon.length));
+        id = normalPokemon[normalIndex].id;
       }
 
-      tempResult.push(resultObj);
+      tempResult.push(allPokemons.find((poke) => poke.id === id));
     }
 
     setResult(tempResult);

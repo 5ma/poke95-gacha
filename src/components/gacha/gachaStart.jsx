@@ -1,64 +1,57 @@
-import { Button, Window, WindowContent, WindowHeader } from "react95";
 import styled from "styled-components";
-import { useGacha } from "../../hooks/use-gacha";
-import { mq } from "../../styles/theme";
+import { Button, Modal } from "@react95/core";
+import ballImg from "../../assets/pokeball.png";
 
-export const GachaStart = () => {
-  const [result, pull] = useGacha();
-  console.log("result", result);
-
+export const GachaStart = ({ close, setPullTimes, showResult, isResultShow }) => {
+  const pullGacha = (times) => {
+    setPullTimes(times);
+    showResult(true);
+  };
   return (
-    <ExtendWindow>
-      <WindowHeader>ポケモンガチャ</WindowHeader>
-      <WindowContent>
-        <Message>まだ見ぬポケモンがあなたとの出会いを待っています。冒険にでかけますか？</Message>
-        {result.length > 0 && (
-          <div>
-            <p>結果</p>
-            <ul>
-              {result.map((r, i) => (
-                <li key={i}>{r.id}</li>
-              ))}
-            </ul>
-          </div>
-        )}
+    <>
+      <ExtendModal
+        title="ポケモンガチャ"
+        closeModal={close}
+        icon={<img src={ballImg} alt="" width={15} height={15} />}
+        width={Math.floor(window.innerWidth * 0.8) > 500 ? 500 : Math.floor(window.innerWidth * 0.8)}
+        defaultPosition={{
+          x: 20,
+          y: Math.floor(window.innerHeight / 2) - 150,
+        }}
+      >
+        <Message>
+          まだ見ぬポケモンが　あなたとの出会いを待っています。
+          <br />
+          冒険に　でかけますか？
+        </Message>
         <ButtonWrapper>
-          <Button primary onClick={() => pull(1)}>
-            1匹GETする
-          </Button>
-          <Button primary onClick={() => pull(10)}>
-            たくさんGETする
-          </Button>
+          {!isResultShow && (
+            <>
+              <Button onClick={() => pullGacha(1)}>1匹GETする</Button>
+              <Button onClick={() => pullGacha(10)}>たくさんGETする</Button>
+            </>
+          )}
         </ButtonWrapper>
-      </WindowContent>
-    </ExtendWindow>
+      </ExtendModal>
+    </>
   );
 };
 
-const ExtendWindow = styled(Window)`
-  position: fixed;
-  inset: 0;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  margin: auto;
-  width: fit-content;
-  max-width: 65%;
-  height: fit-content;
-  max-height: 80%;
-  z-index: 100;
-
-  ${mq.sp} {
-    max-width: 90%;
-  }
+const Message = styled.div`
+  margin-bottom: 10px;
 `;
 
-const Message = styled.div`
-  margin-bottom: 20px;
+const ExtendModal = styled(Modal)`
+  max-height: 80vh;
+  overflow-y: auto;
 `;
 
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
-  gap: 4px 5px;
+  gap: 0 6px;
+`;
+
+const Loading = styled.div`
+  text-align: center;
 `;
