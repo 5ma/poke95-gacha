@@ -1,29 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import "./App.css";
 import reportWebVitals from "./reportWebVitals";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Root } from "./routes/root";
 import ErrorPage from "./routes/error-page";
-import { Collection } from "./routes/collection";
-import { Get } from "./routes/get";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
     errorElement: <ErrorPage />,
-    children: [
-      {
-        path: "collection",
-        element: <Collection />,
-      },
-      {
-        path: "get",
-        element: <Get />,
-      },
-    ],
   },
 ]);
 
