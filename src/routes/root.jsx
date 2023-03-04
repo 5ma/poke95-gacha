@@ -7,13 +7,16 @@ import { TaskBar, ThemeProvider, GlobalStyle, List } from "@react95/core";
 import { WindowsExplorer, Issue } from "@react95/icons";
 import ballImg from "../assets/pokeball.png";
 import { Gacha } from "../components/gacha";
+import { Collection } from "../components/collection";
 
 export const StoreContext = createContext();
 
 export const Root = () => {
-  const [isGachaShow, setIsGachaShow] = useState(false);
+  const [showGacha, setShowGacha] = useState(false);
+  const [showCollection, setShowCollection] = useState(false);
 
-  const closeGacha = () => setIsGachaShow(false);
+  const handleCloseGacha = () => setShowGacha(false);
+  const handleCloseCollection = () => setShowCollection(false);
 
   // 全てのポケモンのデータを取得
   const { pokemon, isLoading, isError } = useAllPokemon();
@@ -46,14 +49,17 @@ export const Root = () => {
         {isLoading && <ExtendHourglass />}
         {pokemon !== undefined && (
           <>
-            {isGachaShow && <Gacha close={closeGacha} />}
+            {showGacha && <Gacha close={handleCloseGacha} />}
+            {showCollection && <Collection handleGacha={setShowGacha} close={handleCloseCollection} />}
             <TaskBar
               list={
                 <List>
-                  <List.Item icon={<WindowsExplorer variant="32x32_4" />}>ずかんをみる</List.Item>
+                  <List.Item icon={<WindowsExplorer variant="32x32_4" />} onClick={() => setShowCollection(true)}>
+                    ずかんをみる
+                  </List.Item>
                   <List.Item
                     icon={<img src={ballImg} alt="" width={30} height={30} />}
-                    onClick={() => setIsGachaShow(true)}
+                    onClick={() => setShowGacha(true)}
                   >
                     ポケモンにであう
                   </List.Item>
