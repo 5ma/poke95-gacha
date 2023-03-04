@@ -3,7 +3,7 @@ import { StoreContext } from "../routes/root";
 import { getRandomInt } from "../utils";
 
 export const rareConfig = {
-  probability: 0.01, // 1%の確率でレアポケモンが出る
+  probability: 0.02, // 2%の確率でレアポケモンが出る
   pokemons: [
     144, // フリーザー
     145, // サンダー
@@ -23,6 +23,7 @@ export const rareConfig = {
     383, // グラードン
     384, // レックゥザ
     385, // ジラーチ
+    386, //
     447, // ミニルカリオ
     448, // ルカリオ
     483, // ディアルガ
@@ -44,7 +45,6 @@ export const useGacha = () => {
 
     for (let i = 0; i < times; i++) {
       let id;
-
       const isRare = Math.random() <= rareConfig.probability;
 
       if (isRare) {
@@ -52,11 +52,12 @@ export const useGacha = () => {
         // レアポケモンが複数体当たったとき、キャラが重複しないように配列要素から削除する
         id = copyRarePokemons.splice(rareIndex, 1)[0];
       } else {
+        // ノーマルポケモンの中からランダムに選出
         const normalIndex = Math.floor(getRandomInt(0, normalPokemon.length));
         id = normalPokemon[normalIndex].id;
       }
 
-      tempResult.push(allPokemons.find((poke) => poke.id === id));
+      tempResult.push(allPokemons.find((poke) => Number(poke.id) === Number(id)));
     }
 
     setResult(tempResult);
